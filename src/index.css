@@ -5,8 +5,12 @@ body {margin:2rem;}
 	margin-bottom: 10px;
 border-radius: 1rem;
 }
+
 .user-profile {
   border-radius: 50%;
-  max-width: 34px;
-  margin-bottom: 4px;
+  max-width: 9%;
+  margin-left: 10px;
 }
+.btn-group-lg>.btn, .btn-lg {
+	margin-bottom: 12px;
+	}
