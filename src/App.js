@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 //import NavBar from './components/NavBar.js';
-import firebase from './firebase.js';
+import firebase, { auth, provider } from './firebase.js';
 import './index.css';
+
 
 
 class App extends Component {
@@ -11,7 +12,8 @@ class App extends Component {
     this.state = {
       currentItem: '',
       username: '',
-      items: []
+      items: [],
+      user: null
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -78,7 +80,14 @@ render() {
   <div>
  
   <div className="container">
-
+  <div className="wrapper">
+  <h1>Fun Food Friends</h1>
+  {this.state.user ?
+    <button onClick={this.logout}>Log Out</button>                
+    :
+    <button onClick={this.login}>Log In</button>              
+  }
+</div>
     {this.state.items.map((item) => {
       return (
         <li key={item.id}>
