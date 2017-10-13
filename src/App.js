@@ -7,8 +7,9 @@ class App extends Component {
     return (
       <div className="container">
         <div className="row">
+          <div className="col-md-12">
         <HAHA />
-      <h1>Hello</h1>
+          </div>
         </div>
       </div>
     );
