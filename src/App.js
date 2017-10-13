@@ -34,7 +34,7 @@ let scroll = setInterval(function(){ window.scrollBy(0,1000); });
 
   const item = {
     title: this.state.currentItem,
-    user: this.state.username
+    user: this.state.user.displayName || this.state.user.email
   }
   itemsRef.push(item);
   this.setState({
@@ -66,6 +66,14 @@ login() {
  (and therefore all items are grabbed from our database), 
  we update the state with this list of items from our database.*/
 componentDidMount() {
+  //When the user signs in, this checks the Firebase database to see 
+  //if they were already previously authenticated. 
+  //If they were, we set their user details back into the state.
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      this.setState({ user });
+    } 
+  });
   const itemsRef = firebase.database().ref('items');
   itemsRef.on('value', (snapshot) => {
     let items = snapshot.val();
@@ -98,30 +106,32 @@ render() {
  return (
   <div>
  
-  <div className="container">
-  <div className="wrapper">
-  <h1>Fun Food Friends</h1>
+  <div className='app'>
   {this.state.user ?
-    <button onClick={this.logout}>Log Out</button>                
+    <div className="lolo">
+    <button className="btn btn-danger btn-lg btn-block" onClick={this.logout}>Logout</button>  
+    </div>
     :
-    <button onClick={this.login}>Log In</button>              
+    <button className="btn btn-primary btn-lg btn-block" onClick={this.login}>Log In</button> 
   }
 </div>
+  <div className="container">
     {this.state.items.map((item) => {
       return (
         <li key={item.id}>
               <p className="col-sm-offset-3 col-sm-6 col-lg-8">{item.title}</p>
-                <footer class="blockquote-footer "><cite title="Source Title">{item.user}</cite></footer>  
-          <button type="button" class="btn btn-outline-danger btn-sm btn-block" 
-          onClick={() => this.removeItem(item.id)}>DELETE</button>
+                <footer className="blockquote-footer "><cite title="Source Title">{item.user} <img className="user-profile" src={this.state.user.photoURL || null} alt="a" /></cite></footer> 
+          {item.user === this.state.user.displayName || item.user === this.state.user.email ?
+                   <button type="button" className="btn btn-outline-danger btn-sm btn-block" 
+                   onClick={() => this.removeItem(item.id)}>Delete</button> : null}
         </li>
       )
     })}
     <div className="container-fluid">
       <form onSubmit={this.handleSubmit}>
-        <textarea type="text" maxlength="140" name="currentItem" class="form-control form-rounded" rows="3" placeholder="Message here..." aria-label="Search for..."
+        <textarea type="text" maxLength="140" name="currentItem" className="form-control form-rounded" rows="3" placeholder="Message here..." aria-label="Search for..."
       onChange={this.handleChange} value={this.state.currentItem} />
-    <button onSubmit={this.handleSubmit} type="form" class="btn btn-outline-primary btn-lg btn-block">Send</button>
+    <button onSubmit={this.handleSubmit} type="form" className="btn btn-outline-primary btn-lg btn-block">Send</button>
     </form>
   </div>
 </div>
