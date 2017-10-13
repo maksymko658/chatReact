@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import input from './components/input';
+import HAHA from './components/Inputt';
 import './App.css';
 
 class App extends Component {
@@ -7,7 +7,7 @@ class App extends Component {
     return (
       <div className="container">
         <div className="row">
-        <input />
+        <HAHA />
       <h1>Hello</h1>
         </div>
       </div>
