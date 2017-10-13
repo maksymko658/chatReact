@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import HAHA from './components/Inputt';
-import './App.css';
-
+import firebase from './firebase.js';
 
 class App extends Component {
 
@@ -12,6 +10,7 @@ class App extends Component {
       username: ''
     }
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(e) {
@@ -19,30 +18,31 @@ class App extends Component {
     [e.target.name]: e.target.value
   });
 }
+handleSubmit(e) {
+  e.preventDefault();
+  const itemsRef = firebase.database().ref('items');
+  const item = {
+    title: this.state.currentItem,
+    user: this.state.username
+  }
+  itemsRef.push(item);
+  this.setState({
+    currentItem: '',
+    username: ''
+  });
+}
     render() {
         return (
-  <div className="row">
-  <section className='add-item'>
-    <div className="col-lg-6">
-      <div className="input-group">
-        <span className="input-group-btn">
-          <button className="btn btn-secondary" type="button">Go!</button>
-        </span>
+  <div className="container">
+    <div className="container-fluid">
+      <form onSubmit={this.handleSubmit}>
         <input type="text" name="username" class="form-control" placeholder="Search for..." aria-label="Search for..." 
         onChange={this.handleChange} value={this.state.username} />
-      </div>
-    </div>
-      <div className="col-lg-6">
-    <div className="input-group">
-      <input type="text" name="currentItem" class="form-control" placeholder="Search for..." aria-label="Search for..."
+        <input type="text" name="currentItem" class="form-control" placeholder="Search for..." aria-label="Search for..."
       onChange={this.handleChange} value={this.state.currentItem} />
-      <span className="input-group-btn">
-        <button className="btn btn-secondary" type="button">Go!</button>
-      </span>
-    </div>
+    <button onSubmit={this.handleSubmit} type="form" class="btn btn-outline-primary">Primary</button>
+    </form>
   </div>
-  </section>
-<button type="button" class="btn btn-outline-primary">Primary</button>
 </div>
     );
   }
