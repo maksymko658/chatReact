@@ -16,7 +16,9 @@ class App extends Component {
       user: null
     }
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+     this.handleSubmit = this.handleSubmit.bind(this);
+      this.login = this.login.bind(this);
+       this.logout = this.logout.bind(this);
   }
 
   handleChange(e) {
