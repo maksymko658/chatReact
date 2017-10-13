@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import firebase from './firebase.js';
 
+
 class App extends Component {
 
   constructor() {
@@ -22,6 +23,8 @@ class App extends Component {
 handleSubmit(e) {
   e.preventDefault();
   const itemsRef = firebase.database().ref('items');
+
+let scroll = setInterval(function(){ window.scrollBy(0,1000); });
   const item = {
     title: this.state.currentItem,
     user: this.state.username
@@ -32,6 +35,7 @@ handleSubmit(e) {
     username: ''
   });
 }
+
 /*Here, we instantiate a new array and populate it with the results that come back from our value listener.
  We for…in over each key, and push the result into an object inside our newState array. 
  Finally, once all the keys are iterated over 
@@ -60,33 +64,39 @@ so that we start tracking our Potluck items as soon as our component loads on to
 });
   });
 }
+removeItem(itemId) {
+  const itemRef = firebase.database().ref(`/items/${itemId}`);
+  itemRef.remove();
+}
+
     render() {
         return (
   <div className="container">
+    <div className="container-fluid">
+    <section className='display-item'>
+    <ul>
+      {this.state.items.map((item) => {
+        return (
+          <li key={item.id}>
+            <blockquote class="blockquote text-center">
+              <p class="mb-0">{item.title}</p>
+                <footer class="blockquote-footer"><cite title="Source Title">{item.user}</cite></footer>
+            </blockquote>
+          <button type="button" class="btn btn-outline-danger btn-sm btn-block" onClick={() => this.removeItem(item.id)}>DELETE</button>
+        </li>
+      )
+    })}
+    </ul>
+</section>
     <div className="container-fluid">
       <form onSubmit={this.handleSubmit}>
         <input type="text" name="username" class="form-control" placeholder="Search for..." aria-label="Search for..." 
         onChange={this.handleChange} value={this.state.username} />
         <input type="text" name="currentItem" class="form-control" placeholder="Search for..." aria-label="Search for..."
       onChange={this.handleChange} value={this.state.currentItem} />
-    <button onSubmit={this.handleSubmit} type="form" class="btn btn-outline-primary btn-lg btn-block">Primary</button>
+    <button onSubmit={this.handleSubmit} type="form" class="btn btn-outline-primary btn-lg btn-block">Send</button>
     </form>
   </div>
-    <div className="container-fluid">
-    <section className='display-item'>
-  <div className="wrapper">
-    <ul>
-      {this.state.items.map((item) => {
-        return (
-          <li key={item.id}>
-            <h3>{item.title}</h3>
-            <p>brought by: {item.user}</p>
-          </li>
-        )
-      })}
-    </ul>
-  </div>
-</section>
     </div>
 </div>
     );
