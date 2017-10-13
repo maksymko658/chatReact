@@ -1,39 +1,18 @@
 import React, { Component, PropTypes } from 'react';
+import App from '../App';
 
 class Inputt extends Component {
 
-  constructor() {
-    super();
-    this.state = {
-      currentItem: '',
-      username: ''
-    }
-  }
+
     render() {
         return (
-	<div class="row">
-	<section className='add-item'>
-	  <div class="col-lg-6">
-	    <div class="input-group">
-	      <span class="input-group-btn">
-	        <button class="btn btn-secondary" type="button">Go!</button>
-	      </span>
-	      <input type="text" class="form-control" placeholder="Search for..." aria-label="Search for..."
-	      onChange={this.handleChange} value={this.state.username} />
-	    </div>
-	  </div>
-	    <div class="col-lg-6">
-    <div class="input-group">
-      <input type="text" class="form-control" placeholder="Search for..." aria-label="Search for..."
-      onChange={this.handleChange} value={this.state.currentItem} />
-      <span class="input-group-btn">
-        <button class="btn btn-secondary" type="button">Go!</button>
-      </span>
-    </div>
-  </div>
-  </section>
-<button type="button" class="btn btn-outline-primary">Primary</button>
-</div>
+<section className="add-item">
+  <form>
+    <input type="text" name="username" placeholder="What's your name?" onChange={this.handleChange} value={this.state.username} />
+    <input type="text" name="currentItem" placeholder="What are you bringing?" onChange={this.handleChange} value={this.state.currentItem} />
+    <button>Add Item</button>
+  </form>
+</section>
 
         );
     }
