@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+//import NavBar from './components/NavBar.js';
 import firebase from './firebase.js';
+import './index.css';
 
 
 class App extends Component {
@@ -23,8 +25,9 @@ class App extends Component {
 handleSubmit(e) {
   e.preventDefault();
   const itemsRef = firebase.database().ref('items');
-
+// eslint-disable-next-line 
 let scroll = setInterval(function(){ window.scrollBy(0,1000); });
+
   const item = {
     title: this.state.currentItem,
     user: this.state.username
@@ -69,35 +72,31 @@ removeItem(itemId) {
   itemRef.remove();
 }
 
-    render() {
-        return (
+    
+render() {
+ return (
+  <div>
+ 
   <div className="container">
-    <div className="container-fluid">
-    <section className='display-item'>
-    <ul>
-      {this.state.items.map((item) => {
-        return (
-          <li key={item.id}>
-            <blockquote class="blockquote text-center">
-              <p class="mb-0">{item.title}</p>
-                <footer class="blockquote-footer"><cite title="Source Title">{item.user}</cite></footer>
-            </blockquote>
-          <button type="button" class="btn btn-outline-danger btn-sm btn-block" onClick={() => this.removeItem(item.id)}>DELETE</button>
+
+    {this.state.items.map((item) => {
+      return (
+        <li key={item.id}>
+              <p className="col-sm-offset-3 col-sm-6 col-lg-8">{item.title}</p>
+                <footer class="blockquote-footer "><cite title="Source Title">{item.user}</cite></footer>  
+          <button type="button" class="btn btn-outline-danger btn-sm btn-block" 
+          onClick={() => this.removeItem(item.id)}>DELETE</button>
         </li>
       )
     })}
-    </ul>
-</section>
     <div className="container-fluid">
       <form onSubmit={this.handleSubmit}>
-        <input type="text" name="username" class="form-control" placeholder="Search for..." aria-label="Search for..." 
-        onChange={this.handleChange} value={this.state.username} />
-        <input type="text" name="currentItem" class="form-control" placeholder="Search for..." aria-label="Search for..."
+        <textarea type="text" maxlength="140" name="currentItem" class="form-control form-rounded" rows="3" placeholder="Message here..." aria-label="Search for..."
       onChange={this.handleChange} value={this.state.currentItem} />
     <button onSubmit={this.handleSubmit} type="form" class="btn btn-outline-primary btn-lg btn-block">Send</button>
     </form>
   </div>
-    </div>
+</div>
 </div>
     );
   }
