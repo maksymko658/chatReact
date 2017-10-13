@@ -7,7 +7,8 @@ class App extends Component {
     super();
     this.state = {
       currentItem: '',
-      username: ''
+      username: '',
+      items: []
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -31,6 +32,29 @@ handleSubmit(e) {
     username: ''
   });
 }
+//We need to actually grab those items from our Firebase database so that we can store them into our state.
+itemsRef.on('value', (snapshot) => {
+  console.log(snapshot.val());
+});
+/*We'll attach this event listener inside of our componentDidMount, 
+so that we start tracking our Potluck items as soon as our component loads on to the page:*/
+componentDidMount() {
+  const itemsRef = firebase.database().ref('items');
+  itemsRef.on('value', (snapshot) => {
+    let items = snapshot.val();
+    let newState = [];
+    for (let item in items) {
+      newState.push({
+        id: item,
+        title: items[item].title,
+        user: items[item].user
+      });
+    }
+    this.setState({
+      items: newState
+    });
+  });
+}
     render() {
         return (
   <div className="container">
@@ -40,7 +64,7 @@ handleSubmit(e) {
         onChange={this.handleChange} value={this.state.username} />
         <input type="text" name="currentItem" class="form-control" placeholder="Search for..." aria-label="Search for..."
       onChange={this.handleChange} value={this.state.currentItem} />
-    <button onSubmit={this.handleSubmit} type="form" class="btn btn-outline-primary">Primary</button>
+    <button onSubmit={this.handleSubmit} type="form" class="btn btn-outline-primary btn-lg btn-block">Primary</button>
     </form>
   </div>
 </div>
