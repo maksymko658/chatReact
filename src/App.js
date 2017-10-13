@@ -42,6 +42,23 @@ let scroll = setInterval(function(){ window.scrollBy(0,1000); });
     username: ''
   });
 }
+logout() {
+  auth.signOut()
+    .then(() => {
+      this.setState({
+        user: null
+      });
+    });
+}
+login() {
+  auth.signInWithPopup(provider) 
+    .then((result) => {
+      const user = result.user;
+      this.setState({
+        user
+      });
+    });
+}
 
 /*Here, we instantiate a new array and populate it with the results that come back from our value listener.
  We for…in over each key, and push the result into an object inside our newState array. 
