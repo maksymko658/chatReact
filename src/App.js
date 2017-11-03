@@ -91,7 +91,7 @@ render() {
     {this.state.items.map((item) => {
       return (
         <li className="list-group-item" key={item.id}>
-              <p>{item.title}<p id="demo"></p></p>
+              <p href="#">{item.title}<p id="demo"></p></p>
                 <footer className="blockquote-footer "><cite title="Source Title">{item.user}  <img className="user-profile" src={this.state.user.photoURL} /></cite></footer>
           {item.user === this.state.user.displayName || item.user === this.state.user.email ? 
                    <button className="btn btn-outline-danger" onClick={() => this.removeItem(item.id)}>Delete</button> : null }
